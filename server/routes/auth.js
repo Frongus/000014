@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
+const userStore = require('../utils/userStore');
 
 // Mock user database (in production, use a real database)
 const users = new Map();
@@ -53,7 +54,7 @@ router.post('/login', async (req, res) => {
       return res.redirect('/auth/login');
     }
 
-    const user = users.get(email);
+    const user = userStore.loadUser(email);
     if (!user) {
       req.session.error = 'Invalid email or password';
       return res.redirect('/auth/login');
@@ -118,6 +119,11 @@ router.post('/register', async (req, res) => {
       return res.redirect('/auth/register');
     }
 
+    if (userStore.userExists(email)) {
+      req.session.error = 'An account with this email already exists';
+      return res.redirect('/auth/register');
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -132,6 +138,8 @@ router.post('/register', async (req, res) => {
       profile: null,
       recommendations: []
     };
+
+    userStore.saveUser(user);
 
     users.set(email, user);
 
@@ -159,6 +167,37 @@ router.post('/logout', (req, res) => {
     if (err) {
       console.error('Logout error:', err);
     }
+    res.redirect('/');
+  });
+});
+
+router.post('/update', requireAuth, (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    req.session.error = 'Name is required';
+    return res.redirect('/dashboard');
+  }
+
+  const updated = userStore.updateUser(req.session.user.email, (user) => {
+    user.name = name;
+    return user;
+  });
+
+  if (updated) {
+    req.session.user.name = updated.name;
+    res.redirect('/dashboard');
+  } else {
+    req.session.error = 'User not found';
+    res.redirect('/dashboard');
+  }
+});
+
+// Delete account
+router.post('/delete', requireAuth, (req, res) => {
+  userStore.deleteUser(req.session.user.email);
+  req.session.destroy((err) => {
+    if (err) console.error('Error destroying session:', err);
     res.redirect('/');
   });
 });

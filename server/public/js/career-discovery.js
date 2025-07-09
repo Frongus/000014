@@ -16,6 +16,7 @@ let userProfile = {
 
 // Start the career discovery process
 function startCareerDiscovery() {
+    console.log('Starting career discovery...');
     currentStep = 1;
     updateProgressBar();
     renderCurrentStep();
@@ -45,7 +46,10 @@ function updateProgressBar() {
 // Render the current step
 function renderCurrentStep() {
     const stepContent = document.getElementById('step-content');
-    if (!stepContent) return;
+    if (!stepContent) {
+        console.error('Step content container not found');
+        return;
+    }
     
     let content = '';
     
@@ -63,13 +67,15 @@ function renderCurrentStep() {
             content = renderPreferencesStep();
             break;
         default:
-            content = '<div>Step not found</div>';
+            content = '<div class="step-card"><p>Step not found</p></div>';
     }
     
     stepContent.innerHTML = content;
     
     // Add event listeners for the current step
-    addStepEventListeners();
+    setTimeout(() => {
+        addStepEventListeners();
+    }, 100);
 }
 
 // Basic Info Step (Step 1)
@@ -84,13 +90,14 @@ function renderBasicInfoStep() {
             <div class="step-body">
                 <div class="form-section">
                     <label for="user-age">Age</label>
-                    <input type="number" id="user-age" class="age-input" min="16" max="100" 
-                           value="${userProfile.age || ''}" placeholder="Enter your age">
+                    <input type="number" id="user-age" class="form-input" min="16" max="100" 
+                           value="${userProfile.age || ''}" placeholder="Enter your age"
+                           style="width: 100%; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
                 </div>
                 
                 <div class="form-section">
                     <label for="user-education">Education Level</label>
-                    <select id="user-education">
+                    <select id="user-education" style="width: 100%; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
                         <option value="">Select your education level</option>
                         <option value="high-school" ${userProfile.education === 'high-school' ? 'selected' : ''}>High School</option>
                         <option value="some-college" ${userProfile.education === 'some-college' ? 'selected' : ''}>Some College</option>
@@ -103,7 +110,7 @@ function renderBasicInfoStep() {
                 
                 <div class="form-section">
                     <label for="user-experience">Work Experience</label>
-                    <select id="user-experience">
+                    <select id="user-experience" style="width: 100%; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
                         <option value="">Select your experience level</option>
                         <option value="none" ${userProfile.experience === 'none' ? 'selected' : ''}>No professional experience</option>
                         <option value="entry" ${userProfile.experience === 'entry' ? 'selected' : ''}>0-2 years</option>
@@ -116,9 +123,9 @@ function renderBasicInfoStep() {
             
             <div class="step-navigation">
                 <div></div>
-                <button class="btn btn-primary" onclick="nextStep()" id="next-btn">
+                <button class="btn btn-primary" id="next-btn">
                     <span>Continue</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M9 18l6-6-6-6"/>
                     </svg>
                 </button>
@@ -141,9 +148,10 @@ function renderInterestsStep() {
                     <h3>Hobbies & Activities</h3>
                     <div class="tag-input-container">
                         <div class="tag-input-group">
-                            <input type="text" id="hobby-input" placeholder="e.g., Photography, Gaming, Cooking">
-                            <button type="button" class="btn btn-primary" onclick="addHobby()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <input type="text" id="hobby-input" placeholder="e.g., Photography, Gaming, Cooking"
+                                   style="flex: 1; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
+                            <button type="button" class="btn btn-primary" onclick="addHobby()" style="padding: 0.75rem; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                                     <line x1="12" y1="5" x2="12" y2="19"/>
                                     <line x1="5" y1="12" x2="19" y2="12"/>
                                 </svg>
@@ -159,9 +167,10 @@ function renderInterestsStep() {
                     <h3>Professional Interests</h3>
                     <div class="tag-input-container">
                         <div class="tag-input-group">
-                            <input type="text" id="interest-input" placeholder="e.g., Technology, Healthcare, Finance">
-                            <button type="button" class="btn btn-primary" onclick="addInterest()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <input type="text" id="interest-input" placeholder="e.g., Technology, Healthcare, Finance"
+                                   style="flex: 1; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
+                            <button type="button" class="btn btn-primary" onclick="addInterest()" style="padding: 0.75rem; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                                     <line x1="12" y1="5" x2="12" y2="19"/>
                                     <line x1="5" y1="12" x2="19" y2="12"/>
                                 </svg>
@@ -175,15 +184,15 @@ function renderInterestsStep() {
             </div>
             
             <div class="step-navigation">
-                <button class="btn btn-secondary" onclick="prevStep()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M15 18l-6-6 6-6"/>
                     </svg>
                     <span>Previous</span>
                 </button>
-                <button class="btn btn-primary" onclick="nextStep()" id="next-btn">
+                <button class="btn btn-primary" id="next-btn">
                     <span>Continue</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M9 18l6-6-6-6"/>
                     </svg>
                 </button>
@@ -212,9 +221,10 @@ function renderSkillsStep() {
                     <h3>Your Skills & Strengths</h3>
                     <div class="tag-input-container">
                         <div class="tag-input-group">
-                            <input type="text" id="skill-input" placeholder="Add a skill or strength">
-                            <button type="button" class="btn btn-primary" onclick="addSkill()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <input type="text" id="skill-input" placeholder="Add a skill or strength"
+                                   style="flex: 1; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
+                            <button type="button" class="btn btn-primary" onclick="addSkill()" style="padding: 0.75rem; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                                     <line x1="12" y1="5" x2="12" y2="19"/>
                                     <line x1="5" y1="12" x2="19" y2="12"/>
                                 </svg>
@@ -237,15 +247,15 @@ function renderSkillsStep() {
             </div>
             
             <div class="step-navigation">
-                <button class="btn btn-secondary" onclick="prevStep()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M15 18l-6-6 6-6"/>
                     </svg>
                     <span>Previous</span>
                 </button>
-                <button class="btn btn-primary" onclick="nextStep()" id="next-btn">
+                <button class="btn btn-primary" id="next-btn">
                     <span>Continue</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M9 18l6-6-6-6"/>
                     </svg>
                 </button>
@@ -266,7 +276,7 @@ function renderPreferencesStep() {
             <div class="step-body">
                 <div class="form-section">
                     <label for="work-style">Preferred Work Style</label>
-                    <select id="work-style">
+                    <select id="work-style" style="width: 100%; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
                         <option value="">Select your preferred work style</option>
                         <option value="remote" ${userProfile.workStyle === 'remote' ? 'selected' : ''}>Remote work</option>
                         <option value="office" ${userProfile.workStyle === 'office' ? 'selected' : ''}>Office environment</option>
@@ -278,12 +288,13 @@ function renderPreferencesStep() {
                 
                 <div class="form-section">
                     <label for="career-goals">Career Goals</label>
-                    <textarea id="career-goals" placeholder="Describe your career aspirations and what you want to achieve...">${userProfile.goals}</textarea>
+                    <textarea id="career-goals" placeholder="Describe your career aspirations and what you want to achieve..."
+                              style="width: 100%; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem; resize: vertical; min-height: 100px; font-family: inherit;">${userProfile.goals}</textarea>
                 </div>
                 
                 <div class="form-section">
                     <label for="risk-tolerance">Risk Tolerance</label>
-                    <select id="risk-tolerance">
+                    <select id="risk-tolerance" style="width: 100%; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
                         <option value="">Select your risk tolerance</option>
                         <option value="low" ${userProfile.riskTolerance === 'low' ? 'selected' : ''}>Low - Prefer stable, secure opportunities</option>
                         <option value="medium" ${userProfile.riskTolerance === 'medium' ? 'selected' : ''}>Medium - Balanced approach to risk and reward</option>
@@ -293,7 +304,7 @@ function renderPreferencesStep() {
                 
                 <div class="form-section">
                     <label for="time-commitment">Time Commitment</label>
-                    <select id="time-commitment">
+                    <select id="time-commitment" style="width: 100%; padding: 0.75rem 1rem; background: #374151; border: 1px solid #4b5563; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
                         <option value="">How much time can you dedicate to career development?</option>
                         <option value="part-time" ${userProfile.timeCommitment === 'part-time' ? 'selected' : ''}>Part-time (10-20 hours/week)</option>
                         <option value="full-time" ${userProfile.timeCommitment === 'full-time' ? 'selected' : ''}>Full-time (40+ hours/week)</option>
@@ -305,14 +316,14 @@ function renderPreferencesStep() {
             
             <div class="step-navigation">
                 <button class="btn btn-secondary" onclick="prevStep()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M15 18l-6-6 6-6"/>
                     </svg>
                     <span>Previous</span>
                 </button>
                 <button class="btn btn-primary" onclick="generateResults()" id="next-btn">
                     <span>Get Results</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M9 18l6-6-6-6"/>
                     </svg>
                 </button>
@@ -329,7 +340,7 @@ function renderTags(tags, type) {
         <span class="tag">
             ${tag}
             <button class="tag-remove" onclick="removeTag('${type}', ${index})">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 0.75rem; height: 0.75rem;">
                     <line x1="18" y1="6" x2="6" y2="18"/>
                     <line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
@@ -340,6 +351,8 @@ function renderTags(tags, type) {
 
 // Add event listeners for current step
 function addStepEventListeners() {
+    console.log('Adding event listeners for step', currentStep);
+    
     // Add Enter key listeners for tag inputs
     const hobbyInput = document.getElementById('hobby-input');
     const interestInput = document.getElementById('interest-input');
@@ -418,6 +431,8 @@ function updateNextButtonState() {
 
 // Navigation functions
 function nextStep() {
+    console.log('Next step clicked, current step:', currentStep);
+    
     // Save current step data
     saveCurrentStepData();
     
@@ -429,6 +444,8 @@ function nextStep() {
 }
 
 function prevStep() {
+    console.log('Previous step clicked, current step:', currentStep);
+    
     if (currentStep > 1) {
         currentStep--;
         updateProgressBar();
@@ -438,6 +455,8 @@ function prevStep() {
 
 // Save current step data to profile
 function saveCurrentStepData() {
+    console.log('Saving step data for step:', currentStep);
+    
     switch (currentStep) {
         case 1:
             userProfile.age = parseInt(document.getElementById('user-age')?.value) || 0;
@@ -451,6 +470,8 @@ function saveCurrentStepData() {
             userProfile.timeCommitment = document.getElementById('time-commitment')?.value || '';
             break;
     }
+    
+    console.log('Updated profile:', userProfile);
 }
 
 // Tag management functions
@@ -538,6 +559,8 @@ function updateTagsDisplay(containerId, tags, type) {
 
 // Generate AI results
 async function generateResults() {
+    console.log('Generating results with profile:', userProfile);
+    
     // Save final step data
     saveCurrentStepData();
     
@@ -564,6 +587,8 @@ async function generateResults() {
         const data = await response.json();
         
         if (data.success) {
+            console.log('Generated recommendation:', data.recommendation);
+            
             // Show results
             showResults(data.recommendation);
             
@@ -577,11 +602,12 @@ async function generateResults() {
         
     } catch (error) {
         console.error('Error generating results:', error);
-        // Handle error
+        
+        // Reset button
         if (nextBtn) {
             nextBtn.innerHTML = `
                 <span>Get Results</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                     <path d="M9 18l6-6-6-6"/>
                 </svg>
             `;
@@ -613,187 +639,28 @@ function showResults(recommendation) {
 function renderResults(recommendation) {
     return `
         <div class="results-display">
-            <div class="results-tabs">
-                <button class="results-tab active" onclick="showResultsTab('profession')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                        <line x1="8" y1="21" x2="16" y2="21"/>
-                        <line x1="12" y1="17" x2="12" y2="21"/>
-                    </svg>
-                    Recommended Profession
-                </button>
-                <button class="results-tab" onclick="showResultsTab('business')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 3v18h18"/>
-                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
-                    </svg>
-                    Business Opportunity
-                </button>
-            </div>
-            
-            <div id="profession-results" class="result-content active">
-                ${renderProfessionResults(recommendation.profession)}
-            </div>
-            
-            <div id="business-results" class="result-content" style="display: none;">
-                ${renderBusinessResults(recommendation.businessNiche)}
-            </div>
-            
-            ${renderPremiumCTA()}
-        </div>
-    `;
-}
-
-// Render profession results
-function renderProfessionResults(profession) {
-    return `
-        <div class="result-card">
-            <div class="result-header">
-                <h3 class="result-title">${profession.title}</h3>
-                <div class="match-score">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-                    </svg>
-                    <span>${profession.matchPercentage}% Match</span>
+            <div class="step-card">
+                <div class="step-header">
+                    <h2>🎉 Your Career Recommendation is Ready!</h2>
+                    <p>We've analyzed your profile and generated personalized recommendations for you.</p>
+                </div>
+                
+                <div class="step-body">
+                    <div class="result-preview">
+                        <h3>Recommended Profession: ${recommendation.profession.title}</h3>
+                        <p>Match Score: <strong>${recommendation.profession.matchPercentage}%</strong></p>
+                        <p>${recommendation.profession.description}</p>
+                        
+                        <h3 style="margin-top: 2rem;">Business Opportunity: ${recommendation.businessNiche.title}</h3>
+                        <p>${recommendation.businessNiche.description}</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <p>Redirecting to your results page...</p>
+                        <div class="spinner" style="margin: 1rem auto;"></div>
+                    </div>
                 </div>
             </div>
-            
-            <p class="result-description">${profession.description}</p>
-            
-            <div class="result-stats">
-                <div class="result-stat">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="12" y1="1" x2="12" y2="23"/>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                    </svg>
-                    <p class="stat-label">Average Salary</p>
-                    <p class="stat-value">${profession.averageSalary}</p>
-                </div>
-                <div class="result-stat">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 3v18h18"/>
-                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
-                    </svg>
-                    <p class="stat-label">Growth Outlook</p>
-                    <p class="stat-value">${profession.growthOutlook}</p>
-                </div>
-                <div class="result-stat">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 12l2 2 4-4"/>
-                        <circle cx="12" cy="12" r="10"/>
-                    </svg>
-                    <p class="stat-label">Key Skills</p>
-                    <p class="stat-value">${profession.keySkills.slice(0, 2).join(', ')}</p>
-                </div>
-            </div>
-            
-            <div class="skills-section">
-                <h4>Required Skills</h4>
-                <div class="skills-list">
-                    ${profession.keySkills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-// Render business results
-function renderBusinessResults(business) {
-    return `
-        <div class="result-card">
-            <h3 class="result-title">${business.title}</h3>
-            <p class="result-description">${business.description}</p>
-            
-            <div class="result-stats">
-                <div class="result-stat">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 3v18h18"/>
-                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
-                    </svg>
-                    <p class="stat-label">Market Potential</p>
-                    <p class="stat-value">${business.marketPotential}</p>
-                </div>
-                <div class="result-stat">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="12" y1="1" x2="12" y2="23"/>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                    </svg>
-                    <p class="stat-label">Startup Cost</p>
-                    <p class="stat-value">${business.startupCost}</p>
-                </div>
-                <div class="result-stat">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12,6 12,12 16,14"/>
-                    </svg>
-                    <p class="stat-label">Time to Profit</p>
-                    <p class="stat-value">${business.timeToProfit}</p>
-                </div>
-            </div>
-            
-            <div class="skills-section">
-                <h4>Key Advantages</h4>
-                <ul style="list-style: none; padding: 0;">
-                    ${business.keyAdvantages.map(advantage => `
-                        <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem; color: #10b981; flex-shrink: 0;">
-                                <path d="M9 12l2 2 4-4"/>
-                                <circle cx="12" cy="12" r="10"/>
-                            </svg>
-                            <span>${advantage}</span>
-                        </li>
-                    `).join('')}
-                </ul>
-            </div>
-        </div>
-    `;
-}
-
-// Render premium CTA
-function renderPremiumCTA() {
-    return `
-        <div class="premium-cta">
-            <div class="premium-cta-header">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M2.5 16.88a1 1 0 0 1-.32-1.43l3-5.18a1 1 0 0 1 1.74 0L9 14.5l2.08-3.62a1 1 0 0 1 1.74 0l2.08 3.62L17 10.27a1 1 0 0 1 1.74 0l3 5.18a1 1 0 0 1-.32 1.43A10 10 0 0 1 12 18a10 10 0 0 1-9.5-1.12Z"/>
-                    <path d="M12 2L8 7l4 1 4-1-4-5Z"/>
-                </svg>
-                <h3>Unlock Your Complete Career Roadmap</h3>
-            </div>
-            <p>Get a detailed step-by-step plan, timeline, resources, and financial projections to achieve your career goals.</p>
-            <ul class="premium-features">
-                <li>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 12l2 2 4-4"/>
-                        <circle cx="12" cy="12" r="10"/>
-                    </svg>
-                    Detailed career roadmap with timelines
-                </li>
-                <li>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 12l2 2 4-4"/>
-                        <circle cx="12" cy="12" r="10"/>
-                    </svg>
-                    Curated learning resources and certifications
-                </li>
-                <li>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 12l2 2 4-4"/>
-                        <circle cx="12" cy="12" r="10"/>
-                    </svg>
-                    Business plan with financial projections
-                </li>
-                <li>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 12l2 2 4-4"/>
-                        <circle cx="12" cy="12" r="10"/>
-                    </svg>
-                    Personalized action steps
-                </li>
-            </ul>
-            <button class="btn btn-primary btn-full" onclick="upgradeToPremium()">
-                Upgrade to Premium - $29.99
-            </button>
         </div>
     `;
 }
@@ -824,88 +691,7 @@ function upgradeToPremium() {
     alert('Premium upgrade functionality would be implemented here with payment processing.');
 }
 
-// Mock AI recommendation generator
-function generateMockRecommendation(profile) {
-    const professions = [
-        {
-            title: "UX/UI Designer",
-            description: "Create intuitive and visually appealing user interfaces for digital products. Combine creativity with user research to solve complex design problems.",
-            matchPercentage: 92,
-            keySkills: ["Design Thinking", "Prototyping", "User Research", "Figma", "Adobe Creative Suite"],
-            averageSalary: "$75,000 - $120,000",
-            growthOutlook: "13% (Much faster than average)"
-        },
-        {
-            title: "Data Scientist",
-            description: "Analyze complex data to help organizations make informed decisions. Use statistical methods and machine learning to extract insights from large datasets.",
-            matchPercentage: 88,
-            keySkills: ["Python", "Machine Learning", "Statistics", "SQL", "Data Visualization"],
-            averageSalary: "$95,000 - $165,000",
-            growthOutlook: "22% (Much faster than average)"
-        },
-        {
-            title: "Product Manager",
-            description: "Guide the development of products from conception to launch. Work with cross-functional teams to deliver solutions that meet user needs and business goals.",
-            matchPercentage: 85,
-            keySkills: ["Strategic Thinking", "Project Management", "Market Research", "Communication", "Analytics"],
-            averageSalary: "$90,000 - $150,000",
-            growthOutlook: "19% (Much faster than average)"
-        }
-    ];
-
-    const businesses = [
-        {
-            title: "Digital Marketing Agency",
-            description: "Help small businesses establish their online presence through social media management, content creation, and digital advertising campaigns.",
-            marketPotential: "High - $350B market",
-            startupCost: "$5,000 - $15,000",
-            timeToProfit: "6-12 months",
-            keyAdvantages: [
-                "Low barrier to entry",
-                "High demand from small businesses",
-                "Scalable service model",
-                "Remote work friendly"
-            ]
-        },
-        {
-            title: "E-learning Platform",
-            description: "Create and sell online courses in your area of expertise. Build a platform that helps others learn new skills while generating passive income.",
-            marketPotential: "Very High - $350B market",
-            startupCost: "$2,000 - $10,000",
-            timeToProfit: "3-8 months",
-            keyAdvantages: [
-                "Passive income potential",
-                "Global reach",
-                "Low ongoing costs",
-                "High profit margins"
-            ]
-        },
-        {
-            title: "SaaS Tool Development",
-            description: "Develop software solutions that solve specific problems for businesses or individuals. Focus on subscription-based revenue model.",
-            marketPotential: "Very High - $195B market",
-            startupCost: "$10,000 - $50,000",
-            timeToProfit: "12-24 months",
-            keyAdvantages: [
-                "Recurring revenue",
-                "High scalability",
-                "Global market access",
-                "High valuation potential"
-            ]
-        }
-    ];
-
-    // Simple selection logic
-    const selectedProfession = professions[Math.floor(Math.random() * professions.length)];
-    const selectedBusiness = businesses[Math.floor(Math.random() * businesses.length)];
-
-    return {
-        profession: selectedProfession,
-        businessNiche: selectedBusiness
-    };
-}
-
-// Export functions
+// Export functions to global scope
 window.startCareerDiscovery = startCareerDiscovery;
 window.nextStep = nextStep;
 window.prevStep = prevStep;
@@ -917,3 +703,5 @@ window.removeTag = removeTag;
 window.generateResults = generateResults;
 window.showResultsTab = showResultsTab;
 window.upgradeToPremium = upgradeToPremium;
+
+console.log('Career discovery script loaded');

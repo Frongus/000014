@@ -1,4 +1,10 @@
-<div class="dashboard-content">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="dashboard-content">
     <div class="container">
         <!-- Navigation Tabs -->
         <div class="dashboard-tabs">
@@ -26,11 +32,11 @@
         </div>
 
         <!-- Career Discovery Content -->
-        <div id="career-discovery-container">
+        <div id="career-discovery-container" class="career-discovery-container">
             <!-- Progress Bar -->
             <div id="progress-container" class="progress-container">
                 <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill"></div>
+                    <div id="progress-fill" class="progress-fill" style="width: 25%;"></div>
                 </div>
                 <div class="progress-info">
                     <span id="progress-text">Step 1 of 4</span>
@@ -40,17 +46,58 @@
 
             <!-- Step Content -->
             <div id="step-content" class="step-content">
-                <!-- Steps will be dynamically loaded here -->
+                <!-- Initial loading message -->
+                <div class="step-card">
+                    <div class="step-header">
+                        <h2>Loading Career Discovery...</h2>
+                        <p>Please wait while we prepare your personalized career assessment.</p>
+                    </div>
+                    <div class="step-body" style="text-align: center; padding: 2rem;">
+                        <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                        <p>Initializing...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+</body>
+</html>
 
 <script>
 // Initialize career discovery when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    if (typeof startCareerDiscovery === 'function') {
-        startCareerDiscovery();
-    }
+    console.log('Discovery page loaded, starting career discovery...');
+    
+    // Small delay to ensure all scripts are loaded
+    setTimeout(() => {
+        if (typeof startCareerDiscovery === 'function') {
+            startCareerDiscovery();
+        } else {
+            console.error('startCareerDiscovery function not found');
+            
+            // Fallback: try to load the function after a longer delay
+            setTimeout(() => {
+                if (typeof startCareerDiscovery === 'function') {
+                    startCareerDiscovery();
+                } else {
+                    console.error('Career discovery function still not available');
+                    document.getElementById('step-content').innerHTML = `
+                        <div class="step-card">
+                            <div class="step-header">
+                                <h2>Error Loading Career Discovery</h2>
+                                <p>There was an issue loading the career discovery system. Please refresh the page.</p>
+                            </div>
+                            <div class="step-body" style="text-align: center;">
+                                <button onclick="window.location.reload()" class="btn btn-primary">
+                                    Refresh Page
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }, 2000);
+        }
+    }, 500);
 });
 </script>

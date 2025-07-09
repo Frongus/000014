@@ -1,46 +1,47 @@
 // Authentication handling
 async function handleLogin(event) {
     event.preventDefault();
-    
+
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
-    
-    // Clear previous errors
+
     hideError('login-error');
-    
-    // Validate inputs
+
     if (!email || !password) {
         showError('login-error', 'Please fill in all fields');
         return;
     }
-    
+
     if (!validateEmail(email)) {
         showError('login-error', 'Please enter a valid email address');
         return;
     }
-    
-    // Set loading state
+
     setButtonLoading('login-form', 'login-btn-text', 'login-spinner', true);
-    
+
     try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Mock authentication - in production, this would be a real API call
-        const user = {
-            id: '1',
-            email: email,
-            name: email.split('@')[0],
-            isPremium: false,
-            createdAt: new Date().toISOString(),
-            profile: null,
-            recommendations: []
-        };
-        
-        // Save user and redirect
-        window.CareerAI.setCurrentUser(user);
-        showDashboard();
-        
+        const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password, rememberMe: true })
+        });
+
+        if (response.redirected) {
+            window.location.href = response.url;
+            return;
+        }
+
+        const html = await response.text();
+        if (html.includes('Invalid email or password')) {
+            showError('login-error', 'Invalid email or password');
+        } else {
+            setTimeout(function(){
+                window.location.href = '/dashboard';
+            },200)
+        }
+
     } catch (error) {
         showError('login-error', 'An error occurred. Please try again.');
     } finally {
@@ -48,72 +49,73 @@ async function handleLogin(event) {
     }
 }
 
+
 async function handleRegister(event) {
     event.preventDefault();
-    
+
     const name = document.getElementById('register-name').value;
     const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
     const confirmPassword = document.getElementById('register-confirm-password').value;
     const acceptTerms = document.getElementById('accept-terms').checked;
-    
-    // Clear previous errors
+
     hideError('register-error');
-    
-    // Validate inputs
+
     if (!name || !email || !password || !confirmPassword) {
         showError('register-error', 'Please fill in all fields');
         return;
     }
-    
+
     if (!validateEmail(email)) {
         showError('register-error', 'Please enter a valid email address');
         return;
     }
-    
+
     if (!validatePassword(password)) {
         showError('register-error', 'Password must be at least 6 characters long');
         return;
     }
-    
+
     if (password !== confirmPassword) {
         showError('register-error', 'Passwords do not match');
         return;
     }
-    
+
     if (!acceptTerms) {
         showError('register-error', 'Please accept the terms and conditions');
         return;
     }
-    
-    // Set loading state
+
     setButtonLoading('register-form', 'register-btn-text', 'register-spinner', true);
-    
+
     try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Mock registration - in production, this would be a real API call
-        const user = {
-            id: Date.now().toString(),
-            email: email,
-            name: name,
-            isPremium: false,
-            createdAt: new Date().toISOString(),
-            profile: null,
-            recommendations: []
-        };
-        
-        // Save user and redirect
-        window.CareerAI.setCurrentUser(user);
-        showDashboard();
-        
+        const response = await fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password, confirmPassword, acceptTerms })
+        });
+
+        if (response.redirected) {
+            window.location.href = response.url;
+            return;
+        }
+
+        const html = await response.text();
+        if (html.includes('An account with this email already exists')) {
+            showError('register-error', 'An account with this email already exists');
+        } else {
+            window.location.href = '/dashboard';
+        }
+
     } catch (error) {
         showError('register-error', 'An error occurred. Please try again.');
     } finally {
         setButtonLoading('register-form', 'register-btn-text', 'register-spinner', false);
     }
 }
+
 
 // Utility functions for auth
 function showError(elementId, message) {
