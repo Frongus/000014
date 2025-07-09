@@ -1,0 +1,14 @@
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 2rem;">
+    <div>
+        <h1 style="font-size: 4rem; margin-bottom: 1rem; color: #ef4444;">500</h1>
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Server Error</h2>
+        <p style="color: #9ca3af; margin-bottom: 2rem;">Something went wrong on our end.</p>
+        <a href="/" class="btn btn-primary">Go Home</a>
+        {{#if error.stack}}
+        <details style="margin-top: 2rem; text-align: left;">
+            <summary>Error Details</summary>
+            <pre style="background: #1f2937; padding: 1rem; border-radius: 0.5rem; overflow: auto; margin-top: 1rem;">{{error.stack}}</pre>
+        </details>
+        {{/if}}
+    </div>
+</div>

@@ -1,0 +1,210 @@
+<div class="dashboard-content">
+    <div class="container">
+        <!-- Navigation Tabs -->
+        <div class="dashboard-tabs">
+            <a href="/dashboard" class="tab-btn {{#ifCond activeTab '==' 'overview'}}active{{/ifCond}}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                Overview
+            </a>
+            <a href="/dashboard/discovery" class="tab-btn {{#ifCond activeTab '==' 'discovery'}}active{{/ifCond}}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5,3 19,12 5,21 12,12"/>
+                </svg>
+                Career Discovery
+            </a>
+            <a href="/dashboard/results" class="tab-btn {{#ifCond activeTab '==' 'results'}}active{{/ifCond}}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                My Results
+            </a>
+        </div>
+
+        {{#if recommendations}}
+            {{#each recommendations}}
+            <div class="results-display">
+                <div class="results-tabs">
+                    <button class="results-tab active" onclick="showResultsTab('profession')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        Recommended Profession
+                    </button>
+                    <button class="results-tab" onclick="showResultsTab('business')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 3v18h18"/>
+                            <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                        </svg>
+                        Business Opportunity
+                    </button>
+                </div>
+                
+                <div id="profession-results" class="result-content active">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3 class="result-title">{{profession.title}}</h3>
+                            <div class="match-score">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                                </svg>
+                                <span>{{profession.matchPercentage}}% Match</span>
+                            </div>
+                        </div>
+                        
+                        <p class="result-description">{{profession.description}}</p>
+                        
+                        <div class="result-stats">
+                            <div class="result-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="1" x2="12" y2="23"/>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                </svg>
+                                <p class="stat-label">Average Salary</p>
+                                <p class="stat-value">{{profession.averageSalary}}</p>
+                            </div>
+                            <div class="result-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18"/>
+                                    <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                                </svg>
+                                <p class="stat-label">Growth Outlook</p>
+                                <p class="stat-value">{{profession.growthOutlook}}</p>
+                            </div>
+                            <div class="result-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                <p class="stat-label">Key Skills</p>
+                                <p class="stat-value">{{profession.keySkills.0}}, {{profession.keySkills.1}}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="skills-section">
+                            <h4>Required Skills</h4>
+                            <div class="skills-list">
+                                {{#each profession.keySkills}}
+                                <span class="skill-tag">{{this}}</span>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="business-results" class="result-content" style="display: none;">
+                    <div class="result-card">
+                        <h3 class="result-title">{{businessNiche.title}}</h3>
+                        <p class="result-description">{{businessNiche.description}}</p>
+                        
+                        <div class="result-stats">
+                            <div class="result-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18"/>
+                                    <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                                </svg>
+                                <p class="stat-label">Market Potential</p>
+                                <p class="stat-value">{{businessNiche.marketPotential}}</p>
+                            </div>
+                            <div class="result-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="1" x2="12" y2="23"/>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                </svg>
+                                <p class="stat-label">Startup Cost</p>
+                                <p class="stat-value">{{businessNiche.startupCost}}</p>
+                            </div>
+                            <div class="result-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12,6 12,12 16,14"/>
+                                </svg>
+                                <p class="stat-label">Time to Profit</p>
+                                <p class="stat-value">{{businessNiche.timeToProfit}}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="skills-section">
+                            <h4>Key Advantages</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                {{#each businessNiche.keyAdvantages}}
+                                <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem; color: #10b981; flex-shrink: 0;">
+                                        <path d="M9 12l2 2 4-4"/>
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    <span>{{this}}</span>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Premium CTA -->
+                <div class="premium-cta">
+                    <div class="premium-cta-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2.5 16.88a1 1 0 0 1-.32-1.43l3-5.18a1 1 0 0 1 1.74 0L9 14.5l2.08-3.62a1 1 0 0 1 1.74 0l2.08 3.62L17 10.27a1 1 0 0 1 1.74 0l3 5.18a1 1 0 0 1-.32 1.43A10 10 0 0 1 12 18a10 10 0 0 1-9.5-1.12Z"/>
+                            <path d="M12 2L8 7l4 1 4-1-4-5Z"/>
+                        </svg>
+                        <h3>Unlock Your Complete Career Roadmap</h3>
+                    </div>
+                    <p>Get a detailed step-by-step plan, timeline, resources, and financial projections to achieve your career goals.</p>
+                    <ul class="premium-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Detailed career roadmap with timelines
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Curated learning resources and certifications
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Business plan with financial projections
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Personalized action steps
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary btn-full" onclick="upgradeToPremium()">
+                        Upgrade to Premium - $29.99
+                    </button>
+                </div>
+            </div>
+            {{/each}}
+        {{else}}
+            <div class="no-results">
+                <svg class="brain-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+                    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0-.34-5.58 2.5 2.5 0 0 0 1.32-4.24 2.5 2.5 0 0 0 1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+                </svg>
+                <h3>No Results Yet</h3>
+                <p>Complete your first career analysis to see your personalized results here.</p>
+                <a href="/dashboard/discovery" class="btn btn-primary">
+                    Start Analysis
+                </a>
+            </div>
+        {{/if}}
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <meta name="description" content="AI-powered career discovery platform that helps you find your ideal profession and business opportunities based on your unique profile.">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/components.css">
+    {{#if additionalCSS}}
+        {{#each additionalCSS}}
+            <link rel="stylesheet" href="{{this}}">
+        {{/each}}
+    {{/if}}
+</head>
+<body>
+    {{{body}}}
+    
+    <script src="/js/main.js"></script>
+    {{#if additionalJS}}
+        {{#each additionalJS}}
+            <script src="{{this}}"></script>
+        {{/each}}
+    {{/if}}
+</body>
+</html>

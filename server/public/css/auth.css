@@ -1,0 +1,144 @@
+/* Authentication Pages */
+.auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+    position: relative;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    z-index: 2;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header .logo {
+    display: inline-flex;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.auth-header h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: #9ca3af;
+    margin: 0;
+}
+
+.auth-form {
+    background: rgba(17, 24, 39, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid #374151;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.forgot-password {
+    color: #60a5fa;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+    color: #93c5fd;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #374151;
+}
+
+.auth-footer p {
+    color: #9ca3af;
+    margin: 0;
+}
+
+.auth-footer a {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.auth-footer a:hover {
+    color: #93c5fd;
+}
+
+.auth-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.auth-bg::before,
+.auth-bg::after {
+    content: '';
+    position: absolute;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.1;
+}
+
+.auth-bg::before {
+    background: #3b82f6;
+    top: -10rem;
+    right: -8rem;
+}
+
+.auth-bg::after {
+    background: #8b5cf6;
+    bottom: -10rem;
+    left: -8rem;
+}
+
+/* Loading states for auth buttons */
+.auth-form .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-form .btn:disabled:hover {
+    transform: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    .auth-container {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .auth-form {
+        padding: 1.5rem;
+    }
+    
+    .auth-header .logo {
+        transform: scale(0.9);
+    }
+}
