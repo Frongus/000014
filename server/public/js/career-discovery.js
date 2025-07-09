@@ -123,7 +123,7 @@ function renderBasicInfoStep() {
             
             <div class="step-navigation">
                 <div></div>
-                <button class="btn btn-primary" id="next-btn">
+                <button class="btn btn-primary" onclick="nextStep()" id="next-btn">
                     <span>Continue</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M9 18l6-6-6-6"/>
@@ -184,13 +184,13 @@ function renderInterestsStep() {
             </div>
             
             <div class="step-navigation">
-                <button class="btn btn-secondary">
+                <button class="btn btn-secondary" onclick="prevStep()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M15 18l-6-6 6-6"/>
                     </svg>
                     <span>Previous</span>
                 </button>
-                <button class="btn btn-primary" id="next-btn">
+                <button class="btn btn-primary" onclick="nextStep()" id="next-btn">
                     <span>Continue</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M9 18l6-6-6-6"/>
@@ -247,13 +247,13 @@ function renderSkillsStep() {
             </div>
             
             <div class="step-navigation">
-                <button class="btn btn-secondary">
+                <button class="btn btn-secondary" onclick="prevStep()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M15 18l-6-6 6-6"/>
                     </svg>
                     <span>Previous</span>
                 </button>
-                <button class="btn btn-primary" id="next-btn">
+                <button class="btn btn-primary" onclick="nextStep()" id="next-btn">
                     <span>Continue</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">
                         <path d="M9 18l6-6-6-6"/>
